@@ -1,13 +1,31 @@
 {% extends 'base.html' %}
 {% block content %}
-<ul>
-	{% for topic in object_list %}
-		<!-- <li><a href="/{{topic.slug}}">{{topic.title}}</a></li> -->
-		<li><a href="{% url 'TopicDetails' topic.slug %}">{{topic.title}}</a></li>
+	<div class="container">
+		<ul class="breadcrumb">
+			<li><a href="{% url 'index' %}">Home</a></li>
+			<li class="active">All Topics</li>
+		</ul>
 
-	{% empty %}
-		<li>No Topic</li>
-	{% endfor %}
-	<a href="{% url 'TopicCreate' %}">Add New Topic</a>
+		<h1>{{ category.title }}</h1>
+		{{ category.description }}
+		<hr>
+		{% for topic in all_topics %}
+			<div class="col-xs-12 col-sm-6 col-md-4">
+				
+				<div class="panel panel-primary">
+					<div class="panel-heading">
+						<h3 class="panel-title">{{ topic.title }}</h3>
+					</div>
+					<div class="panel-body">
+						{{ topic.description }}
+						<div class="resource-button">
+							<a class="btn btn-primary" href="{% url 'TopicDetails' topic.slug %}">View Resources</a>
+						</div>
+					</div>
+				</div>
+				
+			</div>
+		{% endfor %}
+	</div>
 {% endblock %}
 </ul>

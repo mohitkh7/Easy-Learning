@@ -15,6 +15,12 @@ class ImageUploadForm(forms.Form):
 	"""Image upload form."""
 	image = forms.ImageField()
 
+def index(request):
+	trending_topics = Topic.objects.all().order_by('-views')
+	latest_topics = Topic.objects.all().order_by('-added_on')
+	return render(request,"learn/index.html",{'trending_topics':trending_topics,'latest_topics':latest_topics})
+
+
 def search(request):
 	return render(request,"learn/search.html")
 
@@ -45,6 +51,7 @@ class SelectedTopicList(ListView):
 
 class TopicList(ListView):
 	model=Topic
+	context_object_name = "all_topics"
 	template_name="learn/topic_list.html"
 
 class TopicDetails(DetailView):
@@ -57,14 +64,6 @@ class TopicDetails(DetailView):
 		object.views+=1
 		object.save()
 		return object
-
-	#pass aditional data to template
-	def get_context_data(self, *args, **kwargs):
-		print(self.kwargs['category_slug'])
-		context = super(TopicDetails, self).get_context_data(*args, **kwargs)
-		category = get_object_or_404(Category,slug=self.kwargs['category_slug'])
-		context['category'] = category
-		return context
 		
 @method_decorator(login_required,name="dispatch")
 class TopicCreate(CreateView):

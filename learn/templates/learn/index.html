@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+{% block title %}
+<title>Easy Learning - Provides list of best resources</title>
+{% endblock %}
+{% block content %}
+	<div class="container">
+		<div class="row">
+			<div class="col-sm-12 col-md-8  col-md-offset-2">
+				<div class="title">
+					<h1>Easy Learning</h1>
+				</div>
+				<div class="form-group">
+					<input class="form-control form-control-lg search-box" type="text" id="inputLarge" placeholder="e.g python, java, french">
+				</div>
+			</div>
+		</div>
+		<div class="space"></div>
+		<!-- Categories -->
+		<h2>Latest Topics</h2>
+		<hr>
+		<div class="row">
+			<!-- slice ":x" shows only x no. of entries -->
+			{% for topic in latest_topics|slice:":3" %}
+				<div class="col-xs-12 col-sm-6 col-md-4">
+					<a href="{% url 'TopicDetails' topic.slug %}">
+					<div class="card text-white bg-primary ">
+						<div class="card-body">
+						    <blockquote class="card-blockquote">
+						    	<br>
+						    	<center>
+								{{ topic.title }}</center>
+								<br>
+						    </blockquote>
+						</div>
+					</div>
+					</a>
+				</div>
+			{% endfor %}
+		
+			<div class="col-xs-4 col-xs-offset-4">
+				<a href="{% url 'TopicList' %}" type="button" class="btn btn-primary btn-block">View All Topics</a>
+			</div>
+		</div>
+		<!-- //categories -->
+		<div class="space"></div>
+	</div>
+	<style>
+		.title{
+			text-align: center;
+			padding: 15px;
+		}
+		.search-box{
+			height: 60px;
+			font-size: 1.5em;
+		}
+		.space{
+			height:50px;
+		}
+	</style>
+{% endblock %}
