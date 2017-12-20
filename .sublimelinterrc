@@ -1,0 +1,8 @@
+{
+    "@python": 2,
+    "linters": {
+        "flake8": {
+            "ignore": "W"
+        }
+    }
+}

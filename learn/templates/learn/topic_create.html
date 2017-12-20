@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% block content %}
+	<div class="container">
+		<div class="well well-lg col-md-offset-3 col-md-6 col-sm-offset-1 col-sm-10">
+			<form action="" method="POST" enctype="multipart/form-data">
+				{% csrf_token %}
+				<div class="form-title text-center">
+					<legend>Add New Topic</legend>
+				</div>
+				{% include 'form_template.html' with form=form %}
+				<button type="submit" class="btn btn-primary">Add New Topic</button>
+				<button class="btn btn-default" onclick="window.history.back()">Cancel</button>
+			</form>
+		</div>
+	</div>
+<style>
+	.helptext{
+		font-size: .8em;
+	}
+</style>
+{% endblock %}

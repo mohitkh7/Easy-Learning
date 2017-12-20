@@ -1,0 +1,178 @@
+{% extends 'base.html' %}
+{% block content %}
+	<div class="container">
+		<!-- breadcrumb -->
+		<ul class="breadcrumb">
+			<li><a href="{% url 'search' %}">Home</a></li>
+			<li><a href="{% url 'SelectedTopicList' category.slug %}">{{ category.title }}</a></li>
+			<li class="active">{{ topic.title }}</li>
+		</ul>
+		<!-- // breadcrumb -->
+
+		<h1>{{ topic.title }}</h1>
+		<p class="lead">
+			{{ topic.description }}
+			<span class="pull-right">
+				<a href="{% url 'ResourceCreate' topic.slug %}" class="btn btn-primary">
+					<i class="material-icons">add_circle_outline</i> 
+					Add New Resource
+				</a>
+			</span>
+		</p>
+		<hr>
+
+		{% for resource in topic.resource_set.all %}
+		<div class="panel panel-primary">
+			<div class="panel-heading">
+				<h2 class="panel-title">
+					<a href="{{ resource.url }}" target="blank">{{ resource.title }}</a>
+					<span class="pull-right">
+						<a href="{% url 'ResourceBookmark' topic.slug resource.slug %}">
+							<i class="material-icons">bookmark</i>
+						</a>
+					</span>
+				</h2>
+
+			</div>
+			<div class="panel-body">	
+				<div class="row">
+					<div class="col-xs-1 text-center vote_section">
+						<a href="{% url 'vote' resource.slug 'upvote' %}"><i class="material-icons">thumb_up</i></a><br>
+						<b>{{ resource.score }}</b><br>
+						<a href="{% url 'vote' resource.slug 'downvote' %}"><i class="material-icons">thumb_down</i></a>
+					</div>
+					<div class="col-xs-11">
+						<p>{{ resource.description }}</p>
+						<p>
+							<b>Level : </b>{{ resource.level | title }}
+							<b>Type : </b>{{ resource.method | title }}
+							<b>Cost : </b>{% if resource.price %}₹{{ resource.price }}{% else %}Free{% endif %}
+						
+						</p>
+						<p class="pull-right">
+							<span class="text-muted"> added {{ resource.added_on | timesince }} ago</span>
+							<br>
+							<span class="pull-right"><img src='{{ resource.person.profile_picture.url }}' class="img profile_img"><a href="#">{{ resource.person | title }}</a></span>		
+						</p>
+					</div>
+				</div>
+				<!-- if there is already a review -->
+				{% if resource.review_set.count %}
+					<a href="#" class="btn btn-link review-control">View Reviews ({{ resource.review_set.count }})</a>
+					<div class="review-section" id="review-section-{{ resource.slug }}">
+						<table class="table table-striped table-hover">
+						{% for review in resource.review_set.all %}
+							<tr>
+								<td></td>
+								<td>
+									<p class="show-star show-star-{{ review.star }}">{{ review.star }}</p>
+									<p>{{ review.text }}</p>
+									<p class="pull-right">
+										-- {{ review.person | title }} 
+										<span class="text-muted">{{ review.added_on }}</span>
+										<a class="btn btn-default btn-xs " href="{% url 'ReviewUpdate' topic.slug resource.slug review.id %}">Edit</a>
+										<a class="btn btn-danger btn-xs" href="{% url 'ReviewDelete' topic.slug resource.slug review.id %}">Delete</a>
+									</p>
+								</td>
+							</tr>
+						{% endfor %}
+							<tr>
+								<td colspan="4" style="text-align: center;">
+									<a href="{% url 'ReviewCreate' topic.slug resource.slug%}" class="btn btn-default btn-xs">Write a Review</a>
+								</td>
+							</tr>
+						</table>
+					</div>
+				{% else %}
+					<a href="{% url 'ReviewCreate' topic.slug resource.slug%}" class="btn btn-default btn-xs">Be the first one to Review</a>
+				{% endif %}
+			</div>
+		</div>
+		{% endfor %}
+	</div>
+	<script>
+		// Getting a cookie by name
+		function getCookie(name) {
+		    var cookieValue = null;
+		    if (document.cookie && document.cookie !== '') {
+		        var cookies = document.cookie.split(';');
+		        for (var i = 0; i < cookies.length; i++) {
+		            var cookie = jQuery.trim(cookies[i]);
+		            // Does this cookie string begin with the name we want?
+		            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+		                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+		                break;
+		            }
+		        }
+		    }
+		    return cookieValue;
+		}
+	 
+		// Setup AJAX
+		$(function () {
+		    $.ajaxSetup({
+		        headers: { "X-CSRFToken": getCookie("csrftoken") }
+		    });
+		});
+		function ToggleBookmark(topic,res){
+			$(this).addClass("ram")
+			$.ajax({
+				url:"/topic/"+topic+"/resource/"+res+"/bookmark/",//topic/(?P<topic_slug>[-\w]+)/resource/(?P<slug>[-\w]+)/bookmark/
+				type: 'POST',
+				success:function(){
+					$(this).text("mohit")
+				}
+			});
+		}
+		$('#bookmark').click(function(){
+			var $this = $(this)
+			var topic = $(this).data('topic')
+			var res = $(this).data('res')
+			$.ajax({
+				url:"/topic/"+topic+"/resource/"+res+"/bookmark/",//topic/(?P<topic_slug>[-\w]+)/resource/(?P<slug>[-\w]+)/bookmark/
+				type: 'POST',
+				success: function(json){
+					$this.text("sd");
+					if(json.result){
+						$this.text("Bookmark");
+						$this.addClass("btn-success");
+					}
+					else{
+						$this.text("UnBookmark");
+						$this.addClass("btn-danger");
+					}
+				},
+				error:function(){
+					alert("fail")
+				}
+			});
+		})
+
+		// control review
+		$('.review-section').hide();
+		$('.review-control').click(function(e){
+			$('.review-section').toggle(1000);
+			e.preventDefault();
+		})
+
+		// show star
+		/* This function will show star based on user rating */
+
+		$(".show-star-1").html(showStar(1));
+		$(".show-star-2").html(showStar(2));
+		$(".show-star-3").html(showStar(3));
+		$(".show-star-4").html(showStar(4));
+		$(".show-star-5").html(showStar(5));
+
+		function showStar(n){
+			st = ""
+			for(i=0;i<5;i++){
+				if(i<n)
+					st += '<i class="material-icons">star</i>'
+				else
+					st += '<i class="material-icons">star_border</i>'
+			}
+			return st
+		}
+	</script>
+{% endblock %}

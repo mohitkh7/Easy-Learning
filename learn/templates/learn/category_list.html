@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% block title %}
+<title>Easy Learning - All Categories</title>
+{% endblock %}
+{% block content %}
+	<div class="container">
+		<div class="row">
+			{% for category in categories %}
+				<div class="col-xs-12 col-sm-6 col-md-4">
+					<a href = "{% url 'SelectedTopicList' category.slug %}">
+					<div class="card text-white bg-primary">
+						<div class="card-body">
+						    <blockquote class="card-blockquote">
+						    	<br>
+						    	<center><i class="material-icons">{{ category.icon_name }}</i><br>
+								{{ category.title }}</center>
+								<br>
+						    </blockquote>
+						</div>
+					</div>
+					</a>
+				</div>
+			{% endfor %}
+		</div>
+	</div>
+
+{% endblock %}

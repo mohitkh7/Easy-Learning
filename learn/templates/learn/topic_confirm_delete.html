@@ -1,0 +1,6 @@
+<form enctype="multipart/form-data" method="POST">
+	{% csrf_token %}
+	<p>Are you sure you want delete ?</p>
+	<input type="submit" value="Delete" />
+	<input type="button" onclick="window.history.back()" value="Cancel" />
+</form>

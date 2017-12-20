@@ -1,0 +1,29 @@
+What's Next -
+- My Account Page
+
+
+
+What's Done - 
+- basic crud done 
+- user authentication system
+
+
+Date Wise Progress - 
+05 June - Flatply, Login-logout
+07 June - user authentication system
+08 June - Strictly no login
+10 June - MyAccount section base made
+13 June - Bookmark
+25 NNov - Understanding back program
+
+What's to be done later - 
+- Mail informing password changed
+- Mail informing account created
+- hide password guidelines
+- not just login required but a permission flag should be there.
+- Bookmark to be class and ajax based
+
+
+Bugs -
+- if a person deletes resources also deletes ??
+

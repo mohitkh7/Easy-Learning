@@ -1,0 +1,47 @@
+.card-text {
+	text-decoration:none !important
+}
+.resource-button{
+	margin-top:20px;
+	text-align: center;
+}
+.material-icons{
+	vertical-align: middle;
+}
+.show-star .material-icons{
+	font-size: 1em;
+}
+
+/* to mak footer stick to bottom */
+html, body{
+	height: 100%;
+}
+body{
+	display: flex;
+	flex-direction: column;
+}
+.body_wrapper{
+	flex : 1 0 auto;
+}
+.footer_wrapper{
+	background: #bbb;
+	padding:5px;
+}
+.vote_section{
+	font-size: 1.5em;
+	font-weight: bold;
+}
+.profile_img_navbar{
+	margin-top: -5px;
+	margin-right: 5px;
+	float: left;
+	background-size: auto 100%; /* Interchange this value depending on prefering width vs. height */
+	width: 30px;
+	height: 30px;
+}
+.profile_img{
+	background-size: auto 100%; /* Interchange this value depending on prefering width vs. height */
+	width: 30px;
+	height: 30px;
+	margin: 5px;
+}

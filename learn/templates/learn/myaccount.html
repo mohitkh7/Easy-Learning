@@ -1,0 +1,127 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load humanize %}
+{% block content %}
+	<link rel="stylesheet" href="{% static 'css/myaccount.css' %}" />
+	{% comment %}
+	<img src="{{ user.person.profile_picture.url }}" class="img-circle" />
+	{{ user.username }}
+	{{ user.email }}
+	{{ user.is_staff }}
+	{{ user.is_active }}
+	{{ user.date_joined }}
+	{{ user.person.added_on }}
+
+	<form action="{% url 'myaccount' %}" method="post" enctype="multipart/form-data">
+	{% csrf_token %}
+    <p>
+        <input id="id_image" type="file" class="" name="image">
+    </p>
+    <input type="submit" value="Submit" />
+</form>
+{% endcomment %}
+<!--
+User Profile Sidebar by @keenthemes
+A component of Metronic Theme - #1 Selling Bootstrap 3 Admin Theme in Themeforest: http://j.mp/metronictheme
+Licensed under MIT
+-->
+<div class="container">
+    <div class="row profile">
+		<div class="col-md-3">
+			<div class="profile-sidebar">
+				<!-- SIDEBAR USERPIC -->
+				<div class="profile-userpic">
+					<img src="{{ user.person.profile_picture.url }}" class="img-circle img-responsive" />
+
+				</div>
+				<!-- END SIDEBAR USERPIC -->
+				<!-- SIDEBAR USER TITLE -->
+				<div class="profile-usertitle">
+					<div class="profile-usertitle-name">
+						{{ user.person.name }}
+					</div>
+					<div class="profile-usertitle-job">
+						{% lorem 25 w %}
+						{{ user.person.bio | truncatewords:25 }}
+					
+					</div>
+				</div>
+				<!-- END SIDEBAR USER TITLE -->
+				<!-- SIDEBAR BUTTONS -->
+				<!--
+				<div class="profile-userbuttons">
+					<button type="button" class="btn btn-success btn-sm">Follow</button>
+					<button type="button" class="btn btn-danger btn-sm">Message</button>
+				</div>
+				-->
+				<!-- END SIDEBAR BUTTONS -->
+				<!-- SIDEBAR MENU -->
+				<div class="profile-usermenu">
+					<ul class="nav" id="side_menu">
+						<li>
+							<a href="{% url 'myaccount' %}">
+							<i class="glyphicon glyphicon-home"></i>
+							Overview </a>
+						</li>
+						<li>
+							<a href="#">
+							<i class="glyphicon glyphicon-user"></i>
+							Account Settings </a>
+						</li>
+						<li>
+							<a href="{% url 'change_password' %}">
+							<i class="glyphicon glyphicon-ok"></i>
+							Change Password </a>
+						</li>
+						<li>
+							<a href="#">
+							<i class="glyphicon glyphicon-flag"></i>
+							Help </a>
+						</li>
+					</ul>
+				</div>
+				<!-- END MENU -->
+			</div>
+		</div>
+		<div class="col-md-9">
+            <div class="profile-content">
+				{% block myaccount_content %}
+					<h4>Upvotes</h4>
+					<hr />
+					<h4>Bookmarks - ({{bookmarks.count}})</h4>
+					<hr/>
+					<ul>
+						{% for bookmark in bookmarks %}
+						{{ bookmark.resource.topic.category.slug }}
+							<li><a href="{% url 'TopicDetails' bookmark.resource.topic.category.slug bookmark.resource.topic.slug %}#{{bookmark.resource.slug}}">{{bookmark.resource}}</a>
+							 - <small>{{bookmark.added_on | naturaltime}}</small>
+							<a href="{% url 'ResourceBookmark' bookmark.resource.topic.slug bookmark.resource.slug %}">UnBookMark</a></li>
+						{% endfor %}
+					<br />
+					</ul>
+					<h4>Resource Suggested - ({{resources.count}})</h4>
+					<hr />
+					<ul>
+						{% for resource in resources %}
+							<li>
+								<a href="{% url 'TopicDetails' resource.topic.category.slug resource.topic.slug %}#{{resource.slug}}">{{resource.title}}</a>
+								<small> {{resource.added_on | naturaltime }}</small>
+								<a href="{% url 'ResourceUpdate' resource.topic.slug resource.slug %}" class="btn btn-sm btn-success" role="button">Edit</a>
+			<a href="{% url 'ResourceDelete' resource.topic.slug resource.slug %}" class="btn btn-sm btn-danger" role="button">Delete</a>
+							</li>
+						{% endfor %}
+					</ul>
+					<h4>Reviews</h4>
+					<hr />
+					<ul>
+					{% for review in reviews %}
+						<li> You Reviewed {{ review.resource }} and given {{ review.star }} stars and said "{{ review.text }}".</li>
+					{% endfor %}
+					</ul>
+				{% endblock %}
+            </div>
+		</div>
+	</div>
+</div>
+<script src="{% static 'js/myaccount.js' %}"></script>
+{% endblock %}

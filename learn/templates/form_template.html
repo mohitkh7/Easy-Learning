@@ -1,0 +1,26 @@
+{% load widget_tweaks %}
+
+{% for hidden_field in form.hidden_fields %}
+	{{ hidden_field }}
+{% endfor %}
+
+{% if form.non_field_errors %}
+	{% for error in form.non_field_errors %}
+		<div class="form-group has-errors text-danger">
+			{{ error }}
+		</div>
+	{% endfor %}
+{% endif %}
+
+{% for field in form.visible_fields %}
+	<div class="form-group">
+		{{ field.label_tag }}
+		{% render_field field class="form-control is-invalid" %}
+		{{ error }}
+
+	    {% if field.help_text %}
+			<span class="help-block">{{ field.help_text }}</span>
+		{% endif %}
+	</div>
+	
+{% endfor %}

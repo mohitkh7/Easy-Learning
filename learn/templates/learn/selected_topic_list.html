@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block title %}
+<title>Easy Learning - All Learning paths for {{ category }}</title>
+{% endblock %}
+
+{% block content %}
+	<div class="container">
+		<ul class="breadcrumb">
+			<li><a href="{% url 'search' %}">Home</a></li>
+			<li class="active">{{ category.title }}</li>
+		</ul>
+
+		<h1>{{ category.title }}</h1>
+		{{ category.description }}
+		<hr>
+		{% for topic in topics %}
+			<div class="col-xs-12 col-sm-6 col-md-4">
+				
+				<div class="panel panel-primary">
+					<div class="panel-heading">
+						<h3 class="panel-title">{{ topic.title }}</h3>
+					</div>
+					<div class="panel-body">
+						{{ topic.description }}
+						<div class="resource-button">
+							<a class="btn btn-primary" href="{% url 'TopicDetails' category.slug topic.slug %}">View Resources</a>
+						</div>
+					</div>
+				</div>
+				
+			</div>
+		{% endfor %}
+	</div>
+{% endblock %}

@@ -1,0 +1,7 @@
+<form action="" method="POST" enctype="multipart/form-data">
+	{% csrf_token %}
+	{{form.as_p}}
+	<input type="submit" value="Update Topic" />
+	<input type="button" onclick="window.history.back()" value="Cancel" />
+	<!--<a href="{{ view.get_success_url }}"><input type="button" value="Cancel" /></a>-->
+</form>

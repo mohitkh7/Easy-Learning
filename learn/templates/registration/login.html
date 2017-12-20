@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% block content %}
+	<div class="container">
+		<div class="well well-lg col-lg-offset-4 col-lg-4 col-md-offset-3 col-md-6 col-sm-offset-2 col-sm-8">
+			<form method="post" class="form-horizontal">
+				{% csrf_token %}
+				<div class="form-title text-center">
+					<legend>Login</legend>
+				</div>
+				{% comment %}
+				{% for error in form.non_field_errors %}
+					<div class="form-group has-errors text-danger">
+						{{error}}
+					</div>
+				{% endfor%}
+				<div class="form-group">
+					<label for="id_username">Username</label>
+					<input type="text" class="form-control" name="username" required="" autofocus="" maxlength="254" id="id_username">
+				</div>
+				<div class="form-group">
+					<label for="id_password">Password</label>
+					<input type="password" class="form-control" name="password" required="" id="id_password">
+				</div>
+				{% endcomment %}
+				{% include 'form_template.html' with form=form%}
+				<div class="form-buttom text-center">
+					<button type="submit" class="btn btn-primary">Login</button>
+				</div>
+				<br>
+				<a href="{% url 'forgot_password' %}">Forgot Password ?</a>
+				<br />
+				<a href="{% url 'signup' %}">Create New Account</a>
+			</form>
+		</div>
+	</div>
+{% endblock %}
