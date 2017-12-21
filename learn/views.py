@@ -1,7 +1,7 @@
 import json 
 
 from django.shortcuts import render,redirect, get_object_or_404
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth import login, authenticate
 from django.contrib.admin.models import LogEntry
 from django.core.urlresolvers import reverse_lazy
@@ -60,7 +60,7 @@ class TopicDetails(DetailView):
 	model=Topic
 	template_name="learn/topic_details.html"
 	context_object_name = 'topic'
-	# self.object.views+=1
+	
 	def get_object(self):
 		object=super(TopicDetails,self).get_object()
 		object.views+=1
@@ -95,7 +95,7 @@ class TopicDelete(DeleteView):
 class ResourceCreate(CreateView):
 	model=Resource
 	fields=['title','description','url','price','method','level']
-	template_name="learn/topic_create.html"
+	template_name="learn/resource_create.html"
 	# intial={'title':Topic.objects.all()[0].title,}
 
 	def get_form(self):
@@ -109,6 +109,14 @@ class ResourceCreate(CreateView):
 		# print(self.request.user.person.added_on)
 		form.instance.person=self.request.user.person
 		return form
+
+	#pass aditional data to template
+	def get_context_data(self, *args, **kwargs):
+		context = super(ResourceCreate, self).get_context_data(*args, **kwargs)
+		topic_slug = self.kwargs['topic_slug']
+		topic=Topic.objects.get(slug=topic_slug)
+		context['topic'] = topic
+		return context
 
 @method_decorator(login_required,name="dispatch")
 class ResourceUpdate(UpdateView):
@@ -147,7 +155,7 @@ def ResourceBookmark(request,topic_slug,slug):
 @method_decorator(login_required,name="dispatch")
 class ReviewCreate(CreateView):
 	model=Review
-	template_name="learn/topic_create.html"
+	template_name="learn/review_create.html"
 	fields=['star','text']
 
 	def get_form(self):
@@ -166,10 +174,17 @@ class ReviewCreate(CreateView):
 			return redirect("TopicList")
 		return queryset
 
+	def get_context_data(self,*args,**kwargs):
+		context = super(ReviewCreate, self).get_context_data(*args, **kwargs)
+		resource_slug=self.kwargs['resource_slug']
+		res=Resource.objects.get(slug=resource_slug)
+		context['resource'] = res
+		return context
+
 @method_decorator(login_required,name="dispatch")
 class ReviewUpdate(UpdateView):
 	model=Review
-	template_name="learn/topic_update.html"
+	template_name="learn/review_update.html"
 	fields=['star','text']
 
 	#To ensure a user can't edit someone's else review
@@ -182,12 +197,12 @@ class ReviewUpdate(UpdateView):
 class ReviewDelete(DeleteView):
 	# topic_slug=kwargs['topic_slug']
 	model=Review
-	template_name="learn/topic_confirm_delete.html"
+	template_name="learn/review_confirm_delete.html"
 	# success_url=reverse_lazy("TopicDetails",kwargs={'slug':topic_slug})
 
 	def get_success_url(self):
 		topic_slug=self.kwargs['topic_slug']
-		return reverse_lazy("home")
+		return reverse_lazy("TopicDetails",kwargs={'slug':topic_slug})
 
 	#To ensure a user can't edit someone's else review
 	def get_queryset(self):
@@ -198,16 +213,13 @@ class ReviewDelete(DeleteView):
 @method_decorator(strictly_no_login,name="dispatch")
 class SignupView(FormView):
 	form_class=SignupForm
-	# template_name="learn/topic_create.html"
 	template_name="registration/signup.html"
 	success_url="/topic/all"
 
 	def form_valid(self,form):
 		form.save()
 		username=form.cleaned_data['username']
-		# email=form.cleaned_data['email']
 		password=form.cleaned_data['password1']
-		# user=User.objects.create_user(username,email,password)
 		user = authenticate(username=username, password=password)
 		login(self.request, user)
 		return super(SignupView, self).form_valid(form)
@@ -275,4 +287,5 @@ def managevote(request,topic_slug,resource_slug,action):
 	return redirect('TopicDetails',slug =  resource.topic.slug)
 
 
-
+def test(request,slug):
+	return HttpResponseRedirect(reverse("TopicDetails",kwargs={'slug':slug}))

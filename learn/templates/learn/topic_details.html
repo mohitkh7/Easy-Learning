@@ -69,8 +69,10 @@
 									<p class="pull-right">
 										-- {{ review.person | title }} 
 										<span class="text-muted">{{ review.added_on }}</span>
-										<a class="btn btn-default btn-xs " href="{% url 'ReviewUpdate' topic.slug resource.slug review.id %}">Edit</a>
-										<a class="btn btn-danger btn-xs" href="{% url 'ReviewDelete' topic.slug resource.slug review.id %}">Delete</a>
+										{% if review.person == request.user.person %}
+											<a class="btn btn-default btn-xs " href="{% url 'ReviewUpdate' topic.slug resource.slug review.id %}">Edit</a>
+											<a class="btn btn-danger btn-xs" href="{% url 'ReviewDelete' topic.slug resource.slug review.id %}">Delete</a>
+										{% endif %}
 									</p>
 								</td>
 							</tr>

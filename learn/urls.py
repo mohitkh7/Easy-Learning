@@ -19,9 +19,9 @@ urlpatterns=[
 	url(r'^topic/(?P<topic_slug>[-\w]+)/delete-resource/(?P<slug>[-\w]+)/',ResourceDelete.as_view(),name="ResourceDelete"),
 	url(r'^(?P<topic_slug>[-\w]+)/(?P<slug>[-\w]+)/bookmark-resource/',ResourceBookmark,name="ResourceBookmark"),
 	
-	url(r'^topic/create/',TopicCreate.as_view(),name="TopicCreate"),
-	url(r'^topic/(?P<slug>[-\w]+)/update/',TopicUpdate.as_view(),name="TopicUpdate"),
-	url(r'^topic/(?P<slug>[-\w]+)/delete/',TopicDelete.as_view(),name="TopicDelete"),
+	url(r'^request-topic/',TopicCreate.as_view(),name="TopicCreate"),
+	url(r'^update-topic/(?P<slug>[-\w]+)/',TopicUpdate.as_view(),name="TopicUpdate"),
+	url(r'^remove-topic/(?P<slug>[-\w]+)/',TopicDelete.as_view(),name="TopicDelete"),
 
 	url(r'^(?P<topic_slug>[-\w]+)/(?P<resource_slug>[-\w]+)/add-review/',ReviewCreate.as_view(),name="ReviewCreate"),
 	url(r'^(?P<topic_slug>[-\w]+)/(?P<resource_slug>[-\w]+)/update-review/(?P<pk>[0-9]+)/',ReviewUpdate.as_view(),name="ReviewUpdate"),
@@ -52,5 +52,6 @@ urlpatterns+=[
 #to avoid errors
 urlpatterns+=[
 	url(r'^(?P<slug>[-\w]+)/$',TopicDetails.as_view(),name="TopicDetails"),
+	url(r'^(?P<slug>[-\w]+)/test.$',test,name="test"),
 ]
 # urlpatterns += staticfiles_urlpatterns()

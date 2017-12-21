@@ -17,7 +17,7 @@
 						<h3 class="panel-title">{{ topic.title }}</h3>
 					</div>
 					<div class="panel-body">
-						{{ topic.description }}
+						{{ topic.description | truncatechars:60}}
 						<div class="resource-button">
 							<a class="btn btn-primary" href="{% url 'TopicDetails' topic.slug %}">View Resources</a>
 						</div>

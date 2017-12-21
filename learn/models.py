@@ -19,7 +19,7 @@ class Person(models.Model):
 	bio					= models.TextField(blank=True)
 
 	def __str__(self):
-		return self.user.username
+		return self.name
 
 
 #Categories class for categories of topics

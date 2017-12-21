@@ -92,7 +92,6 @@ Licensed under MIT
 					<hr/>
 					<ul>
 						{% for bookmark in bookmarks %}
-						{{ bookmark.resource.topic.category.slug }}
 							<li><a href="{% url 'TopicDetails' bookmark.resource.topic.slug %}#{{bookmark.resource.slug}}">{{bookmark.resource}}</a>
 							 - <small>{{bookmark.added_on | naturaltime}}</small>
 							<a href="{% url 'ResourceBookmark' bookmark.resource.topic.slug bookmark.resource.slug %}">UnBookMark</a></li>
