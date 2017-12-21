@@ -1,3 +1,5 @@
+import json 
+
 from django.shortcuts import render,redirect, get_object_or_404
 from django.http import HttpResponse
 from django.contrib.auth import login, authenticate
@@ -249,7 +251,7 @@ class CategoryList(ListView):
 	context_object_name = "categories"
 
 @login_required
-def managevote(request,resource_slug,action):
+def managevote(request,topic_slug,resource_slug,action):
 	resource = Resource.objects.get(slug=resource_slug)
 	person = Person.objects.get(user=request.user)
 
@@ -270,7 +272,7 @@ def managevote(request,resource_slug,action):
 		#if vote doesnot exist
 		vote = Vote.objects.create(resource=resource,person=person,value=value)
 	# redirect back to topic detail
-	return redirect('TopicDetails', category_slug = resource.topic.category.slug, slug =  resource.topic.slug)
+	return redirect('TopicDetails',slug =  resource.topic.slug)
 
 
 

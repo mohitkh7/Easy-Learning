@@ -3,7 +3,7 @@
 {% load humanize %}
 {% block content %}
 	<link rel="stylesheet" href="{% static 'css/myaccount.css' %}" />
-	{% comment %}
+{% comment %}
 	<img src="{{ user.person.profile_picture.url }}" class="img-circle" />
 	{{ user.username }}
 	{{ user.email }}
@@ -93,7 +93,7 @@ Licensed under MIT
 					<ul>
 						{% for bookmark in bookmarks %}
 						{{ bookmark.resource.topic.category.slug }}
-							<li><a href="{% url 'TopicDetails' bookmark.resource.topic.category.slug bookmark.resource.topic.slug %}#{{bookmark.resource.slug}}">{{bookmark.resource}}</a>
+							<li><a href="{% url 'TopicDetails' bookmark.resource.topic.slug %}#{{bookmark.resource.slug}}">{{bookmark.resource}}</a>
 							 - <small>{{bookmark.added_on | naturaltime}}</small>
 							<a href="{% url 'ResourceBookmark' bookmark.resource.topic.slug bookmark.resource.slug %}">UnBookMark</a></li>
 						{% endfor %}
@@ -104,7 +104,7 @@ Licensed under MIT
 					<ul>
 						{% for resource in resources %}
 							<li>
-								<a href="{% url 'TopicDetails' resource.topic.category.slug resource.topic.slug %}#{{resource.slug}}">{{resource.title}}</a>
+								<a href="{% url 'TopicDetails' resource.topic.slug %}#{{resource.slug}}">{{resource.title}}</a>
 								<small> {{resource.added_on | naturaltime }}</small>
 								<a href="{% url 'ResourceUpdate' resource.topic.slug resource.slug %}" class="btn btn-sm btn-success" role="button">Edit</a>
 			<a href="{% url 'ResourceDelete' resource.topic.slug resource.slug %}" class="btn btn-sm btn-danger" role="button">Delete</a>

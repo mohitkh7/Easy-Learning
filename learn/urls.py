@@ -18,7 +18,7 @@ urlpatterns=[
 	url(r'^(?P<topic_slug>[-\w]+)/add-resource/',ResourceCreate.as_view(),name="ResourceCreate"),
 	url(r'^(?P<topic_slug>[-\w]+)/update-resource/(?P<slug>[-\w]+)/',ResourceUpdate.as_view(),name="ResourceUpdate"),
 	url(r'^topic/(?P<topic_slug>[-\w]+)/delete-resource/(?P<slug>[-\w]+)/',ResourceDelete.as_view(),name="ResourceDelete"),
-	url(r'^(?P<topic_slug>[-\w]+)/bookmark-resource/(?P<slug>[-\w]+)/',ResourceBookmark,name="ResourceBookmark"),
+	url(r'^(?P<topic_slug>[-\w]+)/(?P<slug>[-\w]+)/bookmark-resource/',ResourceBookmark,name="ResourceBookmark"),
 	
 	url(r'^topic/create/',TopicCreate.as_view(),name="TopicCreate"),
 	url(r'^topic/(?P<slug>[-\w]+)/update/',TopicUpdate.as_view(),name="TopicUpdate"),
@@ -28,7 +28,7 @@ urlpatterns=[
 	url(r'^(?P<topic_slug>[-\w]+)/(?P<resource_slug>[-\w]+)/update-review/(?P<pk>[0-9]+)/',ReviewUpdate.as_view(),name="ReviewUpdate"),
 	url(r'^(?P<topic_slug>[-\w]+)/(?P<resource_slug>[-\w]+)/delete-review/(?P<pk>[0-9]+)/',ReviewDelete.as_view(),name="ReviewDelete"),
 
-	url(r'learn/(?P<resource_slug>[-\w]+)/vote/(?P<action>[-\w]+)/',managevote,name="vote"),
+	url(r'^(?P<topic_slug>[-\w]+)/(?P<resource_slug>[-\w]+)/(?P<action>[-\w]+)/',managevote,name="vote"),
 
 	url(r'^category/all/$',CategoryList.as_view(),name="CategoryList"),
 	url(r'^category/(?P<category_slug>[-\w]+)/$',SelectedTopicList.as_view(),name="SelectedTopicList"),

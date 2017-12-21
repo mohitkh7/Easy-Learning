@@ -36,9 +36,9 @@
 			<div class="panel-body">	
 				<div class="row">
 					<div class="col-xs-1 text-center vote_section">
-						<a href="{% url 'vote' resource.slug 'upvote' %}"><i class="material-icons">thumb_up</i></a><br>
+						<a href="{% url 'vote' resource.topic.slug resource.slug 'upvote' %}"><i class="material-icons">thumb_up</i></a><br>
 						<b>{{ resource.score }}</b><br>
-						<a href="{% url 'vote' resource.slug 'downvote' %}"><i class="material-icons">thumb_down</i></a>
+						<a href="{% url 'vote' resource.topic.slug resource.slug 'downvote' %}"><i class="material-icons">thumb_down</i></a>
 					</div>
 					<div class="col-xs-11">
 						<p>{{ resource.description }}</p>
