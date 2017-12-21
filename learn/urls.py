@@ -13,7 +13,6 @@ urlpatterns=[
 	url(r'^myaccount/change/$',UserUpdate.as_view(),name="UserUpdate"),
 
 	url(r'^topic/all/$',TopicList.as_view(),name="TopicList"),
-	url(r'^(?P<slug>[-\w]+)/$',TopicDetails.as_view(),name="TopicDetails"),
 
 	url(r'^(?P<topic_slug>[-\w]+)/add-resource/',ResourceCreate.as_view(),name="ResourceCreate"),
 	url(r'^(?P<topic_slug>[-\w]+)/update-resource/(?P<slug>[-\w]+)/',ResourceUpdate.as_view(),name="ResourceUpdate"),
@@ -49,7 +48,9 @@ urlpatterns+=[
     url(r'^reset/(?P<uidb64>[0-9A-Za-z_\-]+)/(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/$',
         password_reset_confirm, name='password_reset_confirm'),
     url(r'^reset/done/$', password_reset_complete, name='password_reset_complete'),
-
-
+]
+#to avoid errors
+urlpatterns+=[
+	url(r'^(?P<slug>[-\w]+)/$',TopicDetails.as_view(),name="TopicDetails"),
 ]
 # urlpatterns += staticfiles_urlpatterns()
