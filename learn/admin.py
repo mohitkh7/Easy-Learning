@@ -12,7 +12,7 @@ class TopicAdmin(admin.ModelAdmin):
 
 class ResourceAdmin(admin.ModelAdmin):
 	list_display = ['title','description','method','level','price','person']
-
+	list_filter = ['level','method',]
 
 # Register your models here.
 admin.site.register(Resource, ResourceAdmin)

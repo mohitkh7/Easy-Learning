@@ -1,4 +1,5 @@
-import json 
+import json
+from django.http import JsonResponse
 
 from django.shortcuts import render,redirect, get_object_or_404
 from django.http import HttpResponse, HttpResponseRedirect
@@ -9,18 +10,32 @@ from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
 from django.views.generic import ListView,DetailView,FormView
 from django.views.generic.edit import CreateView,UpdateView,DeleteView
+
 from .decorators import strictly_no_login
 from .models import *
 from .forms import *
+
 # Create your views here.
 class ImageUploadForm(forms.Form):
 	"""Image upload form."""
 	image = forms.ImageField()
 
 def index(request):
-	trending_topics = Topic.objects.all().order_by('-views')
+	context = {}
+
+	popular_topics = Topic.objects.all().order_by('-views')
 	latest_topics = Topic.objects.all().order_by('-added_on')
-	return render(request,"learn/index.html",{'trending_topics':trending_topics,'latest_topics':latest_topics})
+	context['popular_topics'] = popular_topics
+	context['latest_topics'] = latest_topics
+
+	if request.method == "POST":
+		topic_searched = request.POST['search']
+		try:
+			topic = Topic.objects.get(title__iexact=topic_searched)
+			return redirect(reverse_lazy('TopicDetails',kwargs={'slug':topic.slug}))
+		except:
+			context['search_error'] = topic_searched + " not found"
+	return render(request,"learn/index.html",context)
 
 
 def search(request):
@@ -60,12 +75,26 @@ class TopicDetails(DetailView):
 	model=Topic
 	template_name="learn/topic_details.html"
 	context_object_name = 'topic'
-	
+
 	def get_object(self):
 		object=super(TopicDetails,self).get_object()
 		object.views+=1
 		object.save()
 		return object
+
+	def get_context_data(self,*args,**kwargs):
+		context = super(TopicDetails, self).get_context_data(*args,**kwargs)
+		topic = super(TopicDetails,self).get_object()
+		#getting all resources
+		all_resources = Resource.objects.filter(topic=topic)
+
+		level = self.request.GET.get('level', '')
+		method = self.request.GET.get('method','')
+		print("mohit",level,method)
+		filtered_resources = all_resources.filter(method=method)
+		context['all_resources'] = all_resources
+		context['filtered_resources'] = filtered_resources
+		return context
 		
 @method_decorator(login_required,name="dispatch")
 class TopicCreate(CreateView):
@@ -289,3 +318,15 @@ def managevote(request,topic_slug,resource_slug,action):
 
 def test(request,slug):
 	return HttpResponseRedirect(reverse("TopicDetails",kwargs={'slug':slug}))
+
+def autocompleteSuggestionTopic(request):
+	if request.is_ajax():
+		queryset = Topic.objects.filter(title__icontains=request.GET.get('search', None))
+		filter_topic = []        
+		for i in queryset:
+			filter_topic.append(i.title)
+		# print(filter_topic)
+		data = {
+			'list': filter_topic,
+		}
+		return JsonResponse(data)

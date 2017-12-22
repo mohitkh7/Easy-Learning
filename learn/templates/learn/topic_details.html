@@ -20,7 +20,7 @@
 		</p>
 		<hr>
 
-		{% for resource in topic.resource_set.all %}
+		{% for resource in filtered_resources %}
 		<div class="panel panel-primary">
 			<div class="panel-heading">
 				<h2 class="panel-title">
@@ -89,6 +89,9 @@
 				{% endif %}
 			</div>
 		</div>
+		{% empty %}
+			<br><br>
+			<p>No Resources Found :( <br />Let other don't face this ugly message, help them by <a href="{% url 'ResourceCreate' topic.slug %}">adding resources</a> you know.</p>
 		{% endfor %}
 	</div>
 	<script>

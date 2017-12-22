@@ -32,6 +32,8 @@ urlpatterns=[
 	url(r'^category/all/$',CategoryList.as_view(),name="CategoryList"),
 	url(r'^category/(?P<category_slug>[-\w]+)/$',SelectedTopicList.as_view(),name="SelectedTopicList"),
 
+	url(r'^ajaxcall/topicautocomplete/',autocompleteSuggestionTopic,name="AjaxTopicAutocomplete"),
+
 ]
 
 urlpatterns+=[
