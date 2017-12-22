@@ -7,7 +7,6 @@
 			<li class="active">{{ topic.title }}</li>
 		</ul>
 		<!-- // breadcrumb -->
-
 		<h1>{{ topic.title }}</h1>
 		<p class="lead">
 			{{ topic.description }}
@@ -19,80 +18,103 @@
 			</span>
 		</p>
 		<hr>
-
-		{% for resource in filtered_resources %}
-		<div class="panel panel-primary">
-			<div class="panel-heading">
-				<h2 class="panel-title">
-					<a href="{{ resource.url }}" target="blank">{{ resource.title }}</a>
-					<span class="pull-right">
-						<a href="{% url 'ResourceBookmark' topic.slug resource.slug %}">
-							<i class="material-icons">bookmark</i>
-						</a>
-					</span>
-				</h2>
-
-			</div>
-			<div class="panel-body">	
-				<div class="row">
-					<div class="col-xs-1 text-center vote_section">
-						<a href="{% url 'vote' resource.topic.slug resource.slug 'upvote' %}"><i class="material-icons">thumb_up</i></a><br>
-						<b>{{ resource.score }}</b><br>
-						<a href="{% url 'vote' resource.topic.slug resource.slug 'downvote' %}"><i class="material-icons">thumb_down</i></a>
+		<div class="row">
+			<!-- Showing filter menu -->
+			<div class="well well-lg col-lg-3 col-md-4 col-sm-12">
+				<form action="" method="GET">
+					<div class="form-title text-center">
+						<legend>Filter/Sort Resources</legend>
 					</div>
-					<div class="col-xs-11">
-						<p>{{ resource.description }}</p>
-						<p>
-							<b>Level : </b>{{ resource.level | title }}
-							<b>Type : </b>{{ resource.method | title }}
-							<b>Cost : </b>{% if resource.price %}₹{{ resource.price }}{% else %}Free{% endif %}
-						
-						</p>
-						<p class="pull-right">
-							<span class="text-muted"> added {{ resource.added_on | timesince }} ago</span>
+					{% include 'form_template.html' with form=form %}
+					<div class="form-group">
+						<div class="col-lg-10 col-lg-offset-2">
 							<br>
-							<span class="pull-right"><img src='{{ resource.person.profile_picture.url }}' class="img profile_img"><a href="#">{{ resource.person | title }}</a></span>		
-						</p>
+							<input type="submit" class="btn btn-primary" value="Filter">
+						</div>
+					</div>
+				</form>
+			</div>
+			<!-- showing resources -->
+			<div class="col-lg-9 col-md-8 col-sm-12">
+
+				{% for resource in filtered_resources %}
+				<div class="panel panel-primary">
+					<div class="panel-heading">
+						<h2 class="panel-title">
+							<a href="{{ resource.url }}" target="blank">{{ resource.title }}</a>
+							<span class="pull-right">
+								<a href="{% url 'ResourceBookmark' topic.slug resource.slug %}">
+									<i class="material-icons">bookmark</i>
+								</a>
+							</span>
+						</h2>
+
+					</div>
+					<div class="panel-body">	
+						<div class="row">
+							<div class="col-xs-1 text-center vote_section">
+								<a href="{% url 'vote' resource.topic.slug resource.slug 'upvote' %}"><i class="material-icons">thumb_up</i></a><br>
+								<b>{{ resource.score }}</b><br>
+								<a href="{% url 'vote' resource.topic.slug resource.slug 'downvote' %}"><i class="material-icons">thumb_down</i></a>
+							</div>
+							<div class="col-xs-11">
+								<p>{{ resource.description }}</p>
+								<p>
+									<b>Level : </b>{{ resource.level | title }}
+									<b>Type : </b>{{ resource.method | title }}
+									<b>Cost : </b>{% if resource.price %}₹{{ resource.price }}{% else %}Free{% endif %}
+								
+								</p>
+								<p class="pull-right">
+									<span class="text-muted"> added {{ resource.added_on | timesince }} ago</span>
+									<br>
+									<span class="pull-right"><img src='{{ resource.person.profile_picture.url }}' class="img profile_img"><a href="#">{{ resource.person | title }}</a></span>		
+								</p>
+							</div>
+						</div>
+						<!-- if there is already a review -->
+						{% if resource.review_set.count %}
+							<a href="#" class="btn btn-link review-control" id="review-control-{{ resource.slug }}">View Reviews ({{ resource.review_set.count }})</a>
+							<div class="review-section" id="review-section-{{ resource.slug }}">
+								<table class="table table-striped table-hover">
+								{% for review in resource.review_set.all %}
+									<tr>
+										<td></td>
+										<td>
+											<p class="show-star show-star-{{ review.star }}">{{ review.star }}</p>
+											<p>{{ review.text }}</p>
+											<p class="pull-right">
+												-- {{ review.person | title }} 
+												<span class="text-muted">{{ review.added_on }}</span>
+												{% if review.person == request.user.person %}
+													<a class="btn btn-default btn-xs " href="{% url 'ReviewUpdate' topic.slug resource.slug review.id %}">Edit</a>
+													<a class="btn btn-danger btn-xs" href="{% url 'ReviewDelete' topic.slug resource.slug review.id %}">Delete</a>
+												{% endif %}
+											</p>
+										</td>
+									</tr>
+								{% endfor %}
+									<tr>
+										<td colspan="4" style="text-align: center;">
+											<a href="{% url 'ReviewCreate' topic.slug resource.slug%}" class="btn btn-default btn-xs">Write a Review</a>
+										</td>
+									</tr>
+								</table>
+							</div>
+						{% else %}
+							<a href="{% url 'ReviewCreate' topic.slug resource.slug%}" class="btn btn-default btn-xs">Be the first one to Review</a>
+						{% endif %}
 					</div>
 				</div>
-				<!-- if there is already a review -->
-				{% if resource.review_set.count %}
-					<a href="#" class="btn btn-link review-control">View Reviews ({{ resource.review_set.count }})</a>
-					<div class="review-section" id="review-section-{{ resource.slug }}">
-						<table class="table table-striped table-hover">
-						{% for review in resource.review_set.all %}
-							<tr>
-								<td></td>
-								<td>
-									<p class="show-star show-star-{{ review.star }}">{{ review.star }}</p>
-									<p>{{ review.text }}</p>
-									<p class="pull-right">
-										-- {{ review.person | title }} 
-										<span class="text-muted">{{ review.added_on }}</span>
-										{% if review.person == request.user.person %}
-											<a class="btn btn-default btn-xs " href="{% url 'ReviewUpdate' topic.slug resource.slug review.id %}">Edit</a>
-											<a class="btn btn-danger btn-xs" href="{% url 'ReviewDelete' topic.slug resource.slug review.id %}">Delete</a>
-										{% endif %}
-									</p>
-								</td>
-							</tr>
-						{% endfor %}
-							<tr>
-								<td colspan="4" style="text-align: center;">
-									<a href="{% url 'ReviewCreate' topic.slug resource.slug%}" class="btn btn-default btn-xs">Write a Review</a>
-								</td>
-							</tr>
-						</table>
-					</div>
-				{% else %}
-					<a href="{% url 'ReviewCreate' topic.slug resource.slug%}" class="btn btn-default btn-xs">Be the first one to Review</a>
-				{% endif %}
+				{% empty %}
+					<br><br>
+					<p>No Resources Found :( <br />Let other don't face this ugly message, help them by <a href="{% url 'ResourceCreate' topic.slug %}">adding resources</a> you know.</p>
+				{% endfor %}
 			</div>
+			<!-- //col -->
 		</div>
-		{% empty %}
-			<br><br>
-			<p>No Resources Found :( <br />Let other don't face this ugly message, help them by <a href="{% url 'ResourceCreate' topic.slug %}">adding resources</a> you know.</p>
-		{% endfor %}
+		<!-- //row -->
+
 	</div>
 	<script>
 		// Getting a cookie by name
@@ -155,7 +177,10 @@
 		// control review
 		$('.review-section').hide();
 		$('.review-control').click(function(e){
-			$('.review-section').toggle(1000);
+			var id = $(this).attr('id');
+			var target = id.replace("review-control", "review-section");
+			console.log(target);
+			$("#"+target).toggle(1000);
 			e.preventDefault();
 		})
 

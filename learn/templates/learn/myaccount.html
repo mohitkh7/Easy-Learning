@@ -105,9 +105,11 @@ Licensed under MIT
 							<li>
 								<a href="{% url 'TopicDetails' resource.topic.slug %}#{{resource.slug}}">{{resource.title}}</a>
 								<small> {{resource.added_on | naturaltime }}</small>
+								<span style="float: right">
 								<a href="{% url 'ResourceUpdate' resource.topic.slug resource.slug %}" class="btn btn-sm btn-success" role="button">Edit</a>
-			<a href="{% url 'ResourceDelete' resource.topic.slug resource.slug %}" class="btn btn-sm btn-danger" role="button">Delete</a>
+			<a href="{% url 'ResourceDelete' resource.topic.slug resource.slug %}" class="btn btn-sm btn-danger" role="button">Delete</a></span>
 							</li>
+							<div style="clear: both"></div>
 						{% endfor %}
 					</ul>
 					<h4>Reviews</h4>

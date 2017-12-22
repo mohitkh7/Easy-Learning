@@ -75,6 +75,7 @@ class TopicDetails(DetailView):
 	model=Topic
 	template_name="learn/topic_details.html"
 	context_object_name = 'topic'
+	# form = ResourceFilterForm(request.GET)
 
 	def get_object(self):
 		object=super(TopicDetails,self).get_object()
@@ -85,15 +86,36 @@ class TopicDetails(DetailView):
 	def get_context_data(self,*args,**kwargs):
 		context = super(TopicDetails, self).get_context_data(*args,**kwargs)
 		topic = super(TopicDetails,self).get_object()
+		form = ResourceFilterForm(self.request.GET)
+
 		#getting all resources
 		all_resources = Resource.objects.filter(topic=topic)
+		filtered_resources = all_resources.order_by('-score')
 
+		#getting parameters
 		level = self.request.GET.get('level', '')
 		method = self.request.GET.get('method','')
-		print("mohit",level,method)
-		filtered_resources = all_resources.filter(method=method)
+		sort = self.request.GET.get('sort','')
+
+		if level != '':
+			filtered_resources = filtered_resources.filter(level=level)
+		if method != '':
+			filtered_resources = filtered_resources.filter(method=method)
+		if sort != '':
+			sort_lookup_table = {
+				'vhl':'-score',
+				'vlh':'score',
+				'phl':'-price',
+				'plh':'price',
+				'dno':'-added_on',
+				'don':'added_on',
+			}
+			key = sort_lookup_table.get(sort,'-score')
+			filtered_resources = filtered_resources.order_by(key)
+
 		context['all_resources'] = all_resources
 		context['filtered_resources'] = filtered_resources
+		context['form'] = form
 		return context
 		
 @method_decorator(login_required,name="dispatch")

@@ -47,3 +47,8 @@ Adding Mail client
 OAuth Login
 Indexing
 Data Adding
+
+jo karna hai
+bookmark
+edit 
+delete

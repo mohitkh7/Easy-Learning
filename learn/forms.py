@@ -1,9 +1,27 @@
-
-from .models import User
+from .models import User, Resource
 from django import forms
 from django.core.exceptions import ValidationError
 
 from django.contrib.auth.forms import UserCreationForm
+
+METHODS=(
+	('book','Book'),
+	('ebook','eBook'),
+	('video','Video'),
+	('website','Website'),
+	('blog','Blog'),
+	('mooc','MOOC'),
+	('other','Other'),
+)
+
+SORT = (
+    ('vhl','Vote: High to Low'),
+    ('vlh','Vote: Low to High'),
+    ('phl','Price: High to Low'),
+    ('plh','Price: Low to High'),
+    ('dno','Newest to Oldest'),
+    ('don','Oldest to Newest'),
+)
 
 def UniqueEmailValidator(value):
     if User.objects.filter(email__iexact=value).exists():
@@ -42,3 +60,20 @@ class SignupForm2(forms.ModelForm):
             raise forms.ValidationError(u'Password Mismatch.')
 
         return email
+
+class ResourceFilterForm(forms.ModelForm):
+    # level = forms.CharField(required=False)
+    # method = forms.MultipleChoiceField(
+    #     required=False,
+    #     widget=forms.SelectMultiple,
+    #     choices=METHODS,
+    # )
+    sort = forms.ChoiceField(required=False,widget=forms.Select,choices=SORT)
+    def __init__(self, *args, **kwargs):
+        super(ResourceFilterForm, self).__init__(*args, **kwargs)
+        self.fields['level'].required = False
+        self.fields['method'].required = False
+
+    class Meta:
+        model = Resource
+        fields = ('level','method')
