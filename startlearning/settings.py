@@ -22,9 +22,6 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'umaz=2g7x-_)1kf(9e0po(p-)su$_q(=9ayknt6m9v#ar&qzwm'
 
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-
 ALLOWED_HOSTS = ['127.0.0.1','localhost',]
 
 
@@ -151,3 +148,9 @@ LOGOUT_REDIRECT_URL='/topic/all'
 
 #For Email Settings
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+#To serve static files when debug False
+FORCE_SERVE_STATIC = True
+
+# SECURITY WARNING: don't run with debug turned on in production!
+DEBUG = False
