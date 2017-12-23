@@ -143,14 +143,15 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 LOGIN_URL="/login/"
-LOGIN_REDIRECT_URL='/topic/all'
-LOGOUT_REDIRECT_URL='/topic/all'
+LOGIN_REDIRECT_URL='/'
+LOGOUT_REDIRECT_URL='/'
 
 #For Email Settings
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 #To serve static files when debug False
 FORCE_SERVE_STATIC = True
+FORCE_SERVE_MEDIA = True
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True

@@ -1,4 +1,6 @@
 from django.conf.urls import url
+from django.conf import settings
+from django.conf.urls.static import static
 # from .views import TopicList,home,TopicDetails,TopicCreate,TopicUpdate,TopicDelete,ResourceCreate,ResourceUpdate,ResourceDelete,ReviewCreate,ReviewUpdate,ReviewDelete,SignupView, myaccount, UserUpdate, AllActivityList
 from .views import *
 from django.contrib.auth.views import LoginView,LogoutView,PasswordResetView,password_reset_done,password_reset,password_reset_confirm,password_reset_complete,PasswordChangeView,PasswordChangeDoneView
@@ -19,7 +21,7 @@ urlpatterns=[
 	url(r'^topic/(?P<topic_slug>[-\w]+)/delete-resource/(?P<slug>[-\w]+)/',ResourceDelete.as_view(),name="ResourceDelete"),
 	url(r'^(?P<topic_slug>[-\w]+)/(?P<slug>[-\w]+)/bookmark-resource/',ResourceBookmark,name="ResourceBookmark"),
 	
-	url(r'^request-topic/',TopicCreate.as_view(),name="TopicCreate"),
+	url(r'^add-topic/',TopicCreate.as_view(),name="TopicCreate"),
 	url(r'^update-topic/(?P<slug>[-\w]+)/',TopicUpdate.as_view(),name="TopicUpdate"),
 	url(r'^remove-topic/(?P<slug>[-\w]+)/',TopicDelete.as_view(),name="TopicDelete"),
 
@@ -57,3 +59,4 @@ urlpatterns+=[
 	url(r'^(?P<slug>[-\w]+)/test.$',test,name="test"),
 ]
 # urlpatterns += staticfiles_urlpatterns()
+# urlpatterns+= static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

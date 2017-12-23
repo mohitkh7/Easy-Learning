@@ -70,6 +70,7 @@ class TopicList(ListView):
 	model=Topic
 	context_object_name = "all_topics"
 	template_name="learn/topic_list.html"
+	paginate_by = 6
 
 class TopicDetails(DetailView):
 	model=Topic
@@ -173,13 +174,13 @@ class ResourceCreate(CreateView):
 class ResourceUpdate(UpdateView):
 	model=Resource
 	fields=['title','description','url','price','method','level']
-	template_name="learn/topic_update.html"
+	template_name="learn/resource_update.html"
 
 @method_decorator(login_required,name="dispatch")
 class ResourceDelete(DeleteView):
 	# topic_slug=kwargs['topic_slug']
 	model=Resource
-	template_name="learn/topic_confirm_delete.html"
+	template_name="learn/resource_confirm_delete.html"
 	# success_url=reverse_lazy("TopicDetails",kwargs={'slug':topic_slug})
 
 	def get_success_url(self):
@@ -194,12 +195,7 @@ def ResourceBookmark(request,topic_slug,slug):
 	if not created:
 		bookmark.delete()
 		
-	return HttpResponse(
-		json.dumps({
-			"result": created,
-		}),
-		content_type="application/json"
-	)
+	return redirect('TopicDetails', topic_slug, {'msg':"Mohit"})
 	
 
 
