@@ -18,12 +18,16 @@ class ResourceAdmin(admin.ModelAdmin):
 class ReviewAdmin(admin.ModelAdmin):
 	list_display = ['resource','star','text','person']
 
+class BookmarkAdmin(admin.ModelAdmin):
+	list_display = ['person','resource']
+	list_filter = ['person','resource']
+
 # Register your models here.
 admin.site.register(Resource, ResourceAdmin)
 admin.site.register(Person)
 admin.site.register(Topic,TopicAdmin)
 admin.site.register(Review, ReviewAdmin)
-admin.site.register(Bookmark)
+admin.site.register(Bookmark,BookmarkAdmin)
 admin.site.register(Vote)
 admin.site.register(LogEntry)
 admin.site.register(Category,CategoryAdmin)

@@ -19,8 +19,8 @@ SORT = (
     ('vlh','Vote: Low to High'),
     ('phl','Price: High to Low'),
     ('plh','Price: Low to High'),
-    ('dno','Newest to Oldest'),
-    ('don','Oldest to Newest'),
+    ('dno','Date: Latest to Oldest'),
+    ('don','Date:Oldest to Latest'),
 )
 
 def UniqueEmailValidator(value):

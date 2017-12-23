@@ -195,7 +195,7 @@ def ResourceBookmark(request,topic_slug,slug):
 	if not created:
 		bookmark.delete()
 		
-	return redirect('TopicDetails', topic_slug, {'msg':"Mohit"})
+	return redirect('TopicDetails', topic_slug)
 	
 
 
