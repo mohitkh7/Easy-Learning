@@ -9,7 +9,7 @@ from .decorators import strictly_no_login
 urlpatterns=[
 	url(r'^$',index,name="index"),
 	url(r'^home/$',home,name="search"),
-	url(r'^activity/$',AllActivityList.as_view(),name="activity"),
+	url(r'^all-activity/$',AllActivityList.as_view(),name="activity"),
 
 	url(r'^myaccount/$',myaccount,name="myaccount"),
 	url(r'^myaccount/change/$',UserUpdate.as_view(),name="UserUpdate"),
