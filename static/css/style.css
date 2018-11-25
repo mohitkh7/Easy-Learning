@@ -45,3 +45,10 @@ body{
 	height: 30px;
 	margin: 5px;
 }
+.space{
+	margin:50px;
+}
+.search_error{
+	color:red;
+	padding:5px 0px;
+}

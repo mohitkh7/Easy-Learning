@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% block content %}
+	<div class="container">
+		<!-- breadcrumb -->
+		<ul class="breadcrumb">
+			<li><a href="{% url 'index' %}">Home</a></li>
+			<li><a href="{% url 'TopicDetails' resource.topic.slug %}">{{ resource.topic.title }}</a></li>
+			<li><a>{{ resource.title }}</a></li>
+			<li class="active">Delete Review</li>
+		</ul>
+		<!-- // breadcrumb -->
+
+		<div class="well well-lg col-md-offset-2 col-md-8 col-sm-offset-1 col-sm-10">
+			<form enctype="multipart/form-data" method="POST">
+				{% csrf_token %}
+				<p>Are you sure you want delete ?</p>
+				<blockquote class="helptext">
+					{{ resource | truncatewords:20 }}
+				</blockquote>
+				<input type="submit" class="btn btn-danger" value="Delete" />
+				<a href="{% url 'ResourceUpdate' resource.topic.slug resource.slug %}" class="btn btn-success">Edit</a>
+				<input type="button" class="btn btn-default" onclick="window.history.back()" value="Cancel" />
+			</form>
+		</div>
+	</div>
+<style>
+	.helptext{
+		font-size: .8em;
+	}
+</style>
+{% endblock %}

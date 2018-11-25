@@ -1,13 +1,75 @@
 {% extends 'base.html' %}
 {% block content %}
-<ul>
-	{% for topic in object_list %}
-		<!-- <li><a href="/{{topic.slug}}">{{topic.title}}</a></li> -->
-		<li><a href="{% url 'TopicDetails' topic.slug %}">{{topic.title}}</a></li>
+	<div class="container">
+		<ul class="breadcrumb">
+			<li><a href="{% url 'index' %}">Home</a></li>
+			<li class="active">All Topics</li>
+		</ul>
+		<div style="text-align: center">
+			<h1>All Topics</h1>
+		</div>
+		<div style="text-align: right">
+			<a href="{% url 'TopicCreate' %}" type="button" class="btn btn-primary ">Add Topic</a>
+		</div>
+		<hr>
+		<div class="row">
+		{% for topic in all_topics %}
+			<div class="col-xs-12 col-sm-6 col-md-4">
+				
+				<div class="panel panel-primary">
+					<div class="panel-heading">
+						<h3 class="panel-title">{{ topic.title }}</h3>
+					</div>
+					<div class="panel-body">
+						{{ topic.description | truncatechars:60}}
+						<div class="resource-button">
+							<a class="btn btn-primary" href="{% url 'TopicDetails' topic.slug %}">View Resources</a>
+						</div>
+					</div>
+				</div>
+				
+			</div>
+		{% endfor %}
+		</div>
+		<hr>
+		{% if is_paginated %}
+		<div class="row">
+			<div class="col-md-6 col-sm-8 col-md-offset-3 col-sm-offset-2" style="text-align:center">
+			<ul class="pagination" >
+				<!-- previous -->
+				{% if page_obj.has_previous %}
+					<li><a href="?page={{ page_obj.previous_page_number }}">&laquo;</a></li>
+				{% else %}
+					<li class="disabled"><span>&laquo;</span></li>
+				{% endif %}
+				<!-- //previous -->
 
-	{% empty %}
-		<li>No Topic</li>
-	{% endfor %}
-	<a href="{% url 'TopicCreate' %}">Add New Topic</a>
+				<!-- numbers -->
+				{% for i in paginator.page_range %}
+					{% if page_obj.number == i %}
+						<li class="active"><span>{{ i }} <span class="sr-only">(current)</span></span></li>
+					{% else %}
+						<li><a href="?page={{ i }}">{{ i }}</a></li>
+					{% endif %}
+				{% endfor %}
+				<!-- next -->
+				{% if page_obj.has_next %}
+					<li><a href="?page={{ page_obj.next_page_number }}">&raquo;</a></li>
+				{% else %}
+					<li class="disabled"><span>&raquo;</span></li>
+				{% endif %}
+				<!-- //next -->
+			</ul>
+			</div>
+		</div>
+		{% endif %}
+		<div class="row">
+			<div class="col-xs-4 col-xs-offset-4">
+				<a href="{% url 'TopicCreate' %}" type="button" class="btn btn-primary btn-block">Add Topic</a>
+			</div>
+		</div>
+		<div class="space"></div>
+
+	</div>
 {% endblock %}
 </ul>

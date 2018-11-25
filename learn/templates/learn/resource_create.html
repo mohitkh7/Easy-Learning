@@ -1,11 +1,11 @@
 {% extends 'base.html' %}
 {% block content %}
 	<div class="container">
-
 		<!-- breadcrumb -->
 		<ul class="breadcrumb">
 			<li><a href="{% url 'index' %}">Home</a></li>
-			<li class="active">Add Topic</li>
+			<li><a href="{% url 'TopicDetails' topic.slug %}">{{ topic.title }}</a></li>
+			<li class="active">Add Resource</li>
 		</ul>
 		<!-- // breadcrumb -->
 
@@ -13,10 +13,10 @@
 			<form action="" method="POST" enctype="multipart/form-data">
 				{% csrf_token %}
 				<div class="form-title text-center">
-					<legend>Add Topic</legend>
+					<legend>Add New {{ topic.title }} Resource</legend>
 				</div>
 				{% include 'form_template.html' with form=form %}
-				<button type="submit" class="btn btn-primary">Reqeuest Topic</button>
+				<button type="submit" class="btn btn-primary">Add New Resource</button>
 				<button class="btn btn-default" onclick="window.history.back()">Cancel</button>
 			</form>
 		</div>

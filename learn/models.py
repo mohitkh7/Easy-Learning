@@ -19,7 +19,7 @@ class Person(models.Model):
 	bio					= models.TextField(blank=True)
 
 	def __str__(self):
-		return self.user.username
+		return self.name
 
 
 #Categories class for categories of topics
@@ -57,7 +57,7 @@ class Topic(models.Model):
 		super(Topic,self).save(*args,**kwargs)
 	'''
 	def get_absolute_url(self):
-		return reverse("TopicDetails",args=[self.category.slug,self.slug,])
+		return reverse("TopicDetails",args=[self.slug,])
 		
 class Resource(models.Model):
 	LEVELS=(
@@ -94,7 +94,7 @@ class Resource(models.Model):
 		return self.title
 
 	def get_absolute_url(self):
-		return reverse("TopicDetails",args=[self.topic.category.slug,self.topic.slug,])
+		return reverse("TopicDetails",args=[self.topic.slug,])
 
 class Review(models.Model):
 	star=models.IntegerField()
@@ -104,7 +104,7 @@ class Review(models.Model):
 	added_on=models.DateTimeField(auto_now=True)
 
 	def get_absolute_url(self):
-		return reverse("TopicDetails",args=[self.resource.topic.category.slug,self.resource.topic.slug,])
+		return reverse("TopicDetails",args=[self.resource.topic.slug,])
 
 class Bookmark(models.Model):
 	person = models.ForeignKey('person',on_delete=models.CASCADE)

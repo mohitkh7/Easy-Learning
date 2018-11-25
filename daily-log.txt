@@ -27,3 +27,28 @@ What's to be done later -
 Bugs -
 - if a person deletes resources also deletes ??
 
+URLS
+easylearning.com/
+easylearning.com/search?query=django
+easylearning.com/topic/all/
+easylearning.com/topic/request/
+easylearning.com/django/
+easylearning.com/django/add-resource/
+easylearning.com/django/edit-resource/django-for-girls/
+easylearning.com/django/delete-resource/django-for-girls/
+easylearning.com/django/django-for-girls/add-review/
+easylearning.com/django/django-for-girls/edit-review/1/
+easylearning.com/django/django-for-girls/delete-review/1/
+easylearning.com/django/django-for-girls/upvote/
+easylearning.com/django/django-for-girls/downvote/
+
+What's left ->
+Adding Mail client
+OAuth Login
+Indexing
+Data Adding
+
+jo karna hai
+bookmark
+edit 
+delete

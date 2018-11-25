@@ -1,0 +1,5 @@
+__pycache__/
+migrations/
+startlearning/wsgi.py
+startlearning/settings.py
+db.sqlite3
