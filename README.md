@@ -6,28 +6,48 @@
 Easy Learning will be a comprehensive web based interactive tool with a complete list of resources to learn any stuff, skills, subject based on community feedback, further tailored according to your learning ability which will also be filterable and searchable.
 
 ## Setup Instruction
-* Clone the repository somewhere on your disk and enter to the repository:
+* Create a new directory at desired place in your file system
+```
+mkdir name_of_your_choice
+cd name_of_your_choice
+```
+
+* Create a virtual environment in recetly created directory and activate it:
+```
+python3 -m venv env
+source venv/bin/activate
+```
+
+* Clone the repository and enter to the repository:
 ```
 git clone https://github.com/mohitkh7/Easy-Learning.git
 cd Easy-Learning
 ```
-* Create a virtual environment and activate it:
-```
-virtualenv venv
-source venv/bin/activate
-```
+
 * Next, install the dependencies using pip:
 ```
 pip install -r requirements.txt
 ```
+
+* After this create database in mysql:
+```
+mysql -u root -p<your_mysql_password>
+CREATE DATABASE easylearning CHARACTER SET utf8;
+GRANT ALL PRIVILEGES ON easylearning.* TO admin@localhost IDENTIFIED BY 'thepassword';
+FLUSH PRIVILEGES;
+```
+Here `admin` and `thepassword` should be same as USER and PASSWORD defined in database settings in `startlearning/settings.py`.
+
+* Once the database table is created, Migrate your database.
+```
+python3 manage.py migrate
+```
+
 * Then create a superuser account for Django:
 ```
 python manage.py createsuperuser
 ```
-* Next, Migrate your database.
-```
-python3 manage.py migrate
-```
+
 * Finally, you’re ready to start the development server:
 ```
 python manage.py runserver

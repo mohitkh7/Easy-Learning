@@ -86,11 +86,12 @@ DATABASES = {
 DATABASES = {
 'default': {
     'ENGINE': 'django.db.backends.mysql',
-    'NAME': 'mydatabase',
+    'NAME': 'easylearning',
+    'USER': 'admin',
+    'PASSWORD': 'thepassword',
     'HOST': '127.0.0.1',
     'PORT': '3306',
-    'USER': 'root',
-    'PASSWD': '',
+    
 }}
 
 
