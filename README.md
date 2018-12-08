@@ -15,7 +15,7 @@ cd name_of_your_choice
 * Create a virtual environment in recetly created directory and activate it:
 ```
 python3 -m venv env
-source venv/bin/activate
+source env/bin/activate
 ```
 
 * Clone the repository and enter to the repository:
