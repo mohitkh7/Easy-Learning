@@ -12,7 +12,7 @@ mkdir name_of_your_choice
 cd name_of_your_choice
 ```
 
-* Create a virtual environment in recetly created directory and activate it:
+* Create a virtual environment in recently created directory and activate it:
 ```
 python3 -m venv env
 source env/bin/activate
