@@ -57,7 +57,6 @@ class SelectedTopicList(ListView):
 	def get_queryset(self,*args,**kwargs):
 		#Redirect to all categories not 404
 		self.category = get_object_or_404(Category,slug=self.kwargs['category_slug'])
-		print(self.category)
 		return Topic.objects.filter(category=self.category).order_by('-views')
 
 	#pass aditional data to template
@@ -128,7 +127,7 @@ class TopicCreate(CreateView):
 	def get_form(self):
 		form = super(TopicCreate, self).get_form()
 		# the actual modification of the form
-		# print(self.request.user.person.added_on)
+
 		form.instance.person = self.request.user.person
 		return form
 
@@ -151,14 +150,11 @@ class ResourceCreate(CreateView):
 	# intial={'title':Topic.objects.all()[0].title,}
 
 	def get_form(self):
-		print("in")
 		form=super(ResourceCreate,self).get_form()
-		print("filling form")
 		topic_slug=self.kwargs['topic_slug']
 		#Queryset to object conversion
 		topic=Topic.objects.get(slug=topic_slug)
 		form.instance.topic=topic
-		# print(self.request.user.person.added_on)
 		form.instance.person=self.request.user.person
 		return form
 
@@ -343,7 +339,6 @@ def autocompleteSuggestionTopic(request):
 		filter_topic = []        
 		for i in queryset:
 			filter_topic.append(i.title)
-		# print(filter_topic)
 		data = {
 			'list': filter_topic,
 		}
