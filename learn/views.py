@@ -57,7 +57,7 @@ class SelectedTopicList(ListView):
 	def get_queryset(self,*args,**kwargs):
 		#Redirect to all categories not 404
 		self.category = get_object_or_404(Category,slug=self.kwargs['category_slug'])
-		print(self.category)
+		#print(self.category)
 		return Topic.objects.filter(category=self.category).order_by('-views')
 
 	#pass aditional data to template
@@ -151,9 +151,9 @@ class ResourceCreate(CreateView):
 	# intial={'title':Topic.objects.all()[0].title,}
 
 	def get_form(self):
-		print("in")
+		#print("in")
 		form=super(ResourceCreate,self).get_form()
-		print("filling form")
+		#print("filling form")
 		topic_slug=self.kwargs['topic_slug']
 		#Queryset to object conversion
 		topic=Topic.objects.get(slug=topic_slug)
