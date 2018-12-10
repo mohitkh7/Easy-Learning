@@ -41,7 +41,7 @@ class Topic(models.Model):
 	title=models.CharField(max_length=100)
 	description=models.TextField()
 	#If a person deletes why is it happening ?
-	person=models.ForeignKey('person',on_delete=models.CASCADE)
+	person=models.ForeignKey('person',on_delete=models.SET('Anonymous'))
 	category = models.ForeignKey('category',on_delete=models.CASCADE,default=1)
 	image=models.ImageField(upload_to="topic")
 	views=models.IntegerField(default=0)
@@ -78,7 +78,7 @@ class Resource(models.Model):
 
 	title=models.CharField(max_length=1000)
 	description=models.TextField()
-	person=models.ForeignKey('person',on_delete=models.CASCADE)
+	person=models.ForeignKey('person',on_delete=models.SET('Anonymous'))
 	topic=models.ForeignKey('Topic',on_delete=models.CASCADE)
 	url=models.URLField()
 	level=models.CharField(max_length=20,choices=LEVELS)
@@ -99,7 +99,7 @@ class Resource(models.Model):
 class Review(models.Model):
 	star=models.IntegerField()
 	text=models.TextField()
-	person=models.ForeignKey('person',on_delete=models.CASCADE)
+	person=models.ForeignKey('person',on_delete=models.SET('Anonymous'))
 	resource=models.ForeignKey('resource',on_delete=models.CASCADE)
 	added_on=models.DateTimeField(auto_now=True)
 
@@ -107,7 +107,7 @@ class Review(models.Model):
 		return reverse("TopicDetails",args=[self.resource.topic.slug,])
 
 class Bookmark(models.Model):
-	person = models.ForeignKey('person',on_delete=models.CASCADE)
+	person = models.ForeignKey('person',on_delete=models.SET('Anonymous'))
 	resource = models.ForeignKey('resource',on_delete=models.CASCADE)
 	added_on = models.DateTimeField(auto_now=True)
 
@@ -120,7 +120,7 @@ class Vote(models.Model):
 		(0,"Undo"),
 		(-1,"DownVote")
 	)
-	person = models.ForeignKey('person',on_delete=models.CASCADE)
+	person = models.ForeignKey('person',on_delete=models.SET('Anonymous'))
 	resource = models.ForeignKey('resource',on_delete=models.CASCADE)
 	value = models.IntegerField(default = 1,choices=OPTION) #1 == Upvote -1 == Downvote
 
