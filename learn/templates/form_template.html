@@ -19,7 +19,7 @@
 		{{ error }}
 
 	    {% if field.help_text %}
-			<span class="help-block">{{ field.help_text }}</span>
+			<span class="help-block">{{ field.help_text|safe }}</span>
 		{% endif %}
 	</div>
 	
