@@ -59,8 +59,8 @@ class Topic(models.Model):
         return self.title
 
     """def save(self,*args,**kwargs):
-        self.slug=slugify(self.title)
-        super(Topic,self).save(*args,**kwargs)
+       self.slug=slugify(self.title)
+       super(Topic,self).save(*args,**kwargs)
     """
 
     def get_absolute_url(self):
