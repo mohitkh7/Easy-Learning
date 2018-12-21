@@ -1,7 +1,11 @@
 import json
 from django.http import JsonResponse
 
-from django.shortcuts import render,redirect, get_object_or_404
+from django.conf import settings
+from django.contrib import messages
+from django.core.mail import send_mail
+
+from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth import login, authenticate
 from django.contrib.admin.models import LogEntry
@@ -264,6 +268,12 @@ class SignupView(FormView):
 		username=form.cleaned_data['username']
 		password=form.cleaned_data['password1']
 		user = authenticate(username=username, password=password)
+		# send_mail(subject, message, from_email, to_list, fail_silently=True)
+		subject = 'Thank You'
+		message = 'Welcome to Easy-Learning!\n Thank You for Joining Us.\n Happy Learning!'
+		from_email = settings.EMAIL_HOST_USER
+		to_list = [form.email, settings.EMAIL_HOST_USER]
+		send_mail(subject, message, from_email, to_list, fail_silently=True)
 		login(self.request, user)
 		return super(SignupView, self).form_valid(form)
 

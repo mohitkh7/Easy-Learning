@@ -6,7 +6,7 @@
 Easy Learning will be a comprehensive web based interactive tool with a complete list of resources to learn any stuff, skills, subject based on community feedback, further tailored according to your learning ability which will also be filterable and searchable.
 
 ## Setup Instruction
-* Create a new directory at desired place in your file system
+* Create a new directory at a desired place in your file system
 ```
 mkdir name_of_your_choice
 cd name_of_your_choice
