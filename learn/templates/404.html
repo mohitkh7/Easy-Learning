@@ -1,4 +1,185 @@
-{% extends 'base.html' %}
-{% block content %}
-<h1>404 -  Seems you got lost </h1>
-{% endblock %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="shortcut icon" type="image/png" href="{% static 'images/favicon.png' %}">
+    <link rel="stylesheet" href="{% static 'css/errorpage.css' %}">
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+    
+    <link href="http://code.jquery.com/ui/1.10.2/themes/smoothness/jquery-ui.css" rel="Stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.js"></script>
+
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <!-- google icons -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+
+    
+    <title>Easy Learning - 404 Page Not Found</title>
+</head>
+
+<body>
+        <div class="brand-logo">
+           
+                <a href="{% url 'index' %}" ><img src="{% static 'images/favicon.png' %}" width="50px"></a>
+                <a class="brand-name" href="{% url 'index' %}">Easy Learning</a>
+            </a>
+            </div>
+
+    <div id="wrap">
+        <div id="wordsearch">
+            <ul>
+                    <li>q</li>
+
+                    <li class="e1">e</li>
+    
+                    <li class="e2">a</li>
+    
+                    <li  class="e3">s</li>
+    
+                    <li  class="e4">y</li>
+    
+                    <li>v</li>
+    
+                    <li>f</li>
+    
+                    <li>u</li>
+                <li  class="e5">l</li>
+
+                <li class="e6">e</li>
+
+                <li class="e7">a</li>
+
+                <li class="e8">r</li>
+
+                <li class="e9">n</li>
+
+                <li class="e10">i</li>
+
+                <li class="e11">n</li>
+
+                <li class="e12">g</li>
+
+                <li>t</li>
+
+                <li>a</li>
+
+                <li>x</li>
+
+                <li>l</li>
+
+             
+
+                <li>y</li>
+
+                <li>y</li>
+
+                <li>w</li>
+
+                <li>v</li>
+                
+                <li>b</li>
+
+                <li>o</li>
+                <li class="one">4</li>
+
+                <li class="two">0</li>
+
+                <li class="three">4</li>
+                <li>q</li>
+
+                <li>d</li>
+
+                <li>y</li>
+
+                <li>p</li>
+
+                <li>a</li>
+
+
+                <li>v</li>
+
+                <li class="four">p</li>
+
+                <li class="five">a</li>
+
+                <li class="six">g</li>
+
+                <li class="seven">e</li>
+                <li>j</li>
+
+                <li>a</li>
+
+                <li class="eight">n</li>
+
+                <li class="nine">o</li>
+
+                <li class="ten">t</li>
+
+                <li>s</li>
+
+                <li>c</li>
+
+                <li>e</li>
+
+                <li>w</li>
+
+                <li>v</li>
+
+                <li>x</li>
+
+                <li>e</li>
+
+                <li>p</li>
+
+                <li>c</li>
+
+                <li>f</li>
+
+                <li>h</li>
+
+                <li>q</li>
+
+                <li>e</li>
+
+                <li class="eleven">f</li>
+
+                <li class="twelve">o</li>
+
+                <li class="thirteen">u</li>
+
+                <li class="fourteen">n</li>
+
+                <li class="fifteen">d</li>
+
+                <li>s</li>
+
+                <li>w</li>
+
+             
+            </ul>
+        </div>
+
+        <div id="main-content">
+            <h1>We couldn't find what you were looking for.</h1>
+
+            <p>Unfortunately the page you were looking for could not be found. It may be
+                temporarily unavailable, moved or no longer exist.</p>
+
+            <p>Check the URL you entered for any mistakes and try again. Alternatively, search
+                for whatever is missing or take a look around the rest of our site.</p>
+
+            <div id="navigation">
+                <a class="navigation" href="{% url 'index' %}">Home</a><a class="navigation" href="" onClick="window.history.back();return false;">Go Back</a>
+            </div>
+        </div>
+    </div>
+    <script src="{% static 'js/errorpage.js' %}"></script>
+</body>
+
+</html>
