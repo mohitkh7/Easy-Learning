@@ -53,7 +53,7 @@ python manage.py createsuperuser
 1. Visit the url https://console.cloud.google.com/apis/
 2. Sign in with your google account.
 3. Search for **YouTube Data API v3** and enable it.
-4. After enabling to go credentials present in the left navbar. 
+4. After enabling go to credentials present in the left navbar. 
 5. Select a project (if none project is present then create one and select). After selecting create a API Key for it.
 6. Save the value of API Key in the environment variable. Below command can be used for linux user. 
 ```

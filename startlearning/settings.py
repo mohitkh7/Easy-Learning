@@ -27,6 +27,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'umaz=2g7x-_)1kf(9e0po(p-)su$_q(=9ayknt6m9v#ar&qzwm'
+YOUTUBE_API_KEY = os.getenv("YOUTUBE_API_KEY")
 
 ALLOWED_HOSTS = ['127.0.0.1','localhost',]
 

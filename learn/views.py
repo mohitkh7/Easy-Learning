@@ -21,6 +21,8 @@ from .forms import *
 
 import urllib.request as urlreq
 import json
+import os
+from startlearning.settings import YOUTUBE_API_KEY
 
 # Create your views here.
 class ImageUploadForm(forms.Form):
@@ -360,6 +362,9 @@ def autocompleteSuggestionTopic(request):
 
 url_entires = {}
 
+'''
+Below method is used to insert the data into model when url is apporved by the user. 
+'''
 def youtubeResource(request):
 	if request.method == "POST":
 		if request.POST.get("next") == "Yes":	
@@ -389,21 +394,21 @@ def youtubeResource(request):
 			pass
 	return HttpResponseRedirect(reverse('youtubeResourcePreview'))
 
-
+'''
+Below method stores the data returned by the Youtube v3 API in a global variable "url_entries" 
+according to the session of users as key and data as its value. This data is furthur used when
+user approved the url.
+'''
 def youtubeResourcePreview(request):
-
 	flag = False
 	if request.method == "POST":
 		url = request.POST.get("url")
 		flag = True
 		if "watch" in url:
 			#Identifies that it is a video
-			temp,slug = url.split("watch?v=")
-			import os
-			api_key = os.getenv("YOUTUBE_API_KEY")
+			_,slug = url.split("watch?v=")
 			try:
-				contents = urlreq.urlopen("https://www.googleapis.com/youtube/v3/videos?part=snippet%2CcontentDetails%2Cstatistics&id="+slug+"&key="+api_key).read()
-				print(type(contents))
+				contents = urlreq.urlopen("https://www.googleapis.com/youtube/v3/videos?part=snippet%2CcontentDetails%2Cstatistics&id="+slug+"&key="+YOUTUBE_API_KEY).read()
 				contents = json.loads(contents.decode('utf-8')) 
 				items = contents["items"][0]
 				snippet = items['snippet']
