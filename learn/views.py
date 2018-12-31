@@ -19,6 +19,11 @@ from .decorators import strictly_no_login
 from .models import *
 from .forms import *
 
+import urllib.request as urlreq
+import json
+import os
+from startlearning.settings import YOUTUBE_API_KEY
+
 # Create your views here.
 class ImageUploadForm(forms.Form):
 	"""Image upload form."""
@@ -353,3 +358,76 @@ def autocompleteSuggestionTopic(request):
 			'list': filter_topic,
 		}
 		return JsonResponse(data)
+
+
+url_entires = {}
+
+'''
+Below method is used to insert the data into model when url is apporved by the user. 
+'''
+def youtubeResource(request):
+	if request.method == "POST":
+		if request.POST.get("next") == "Yes":	
+			items = url_entires['session_variable']
+
+			contentDetails = items["contentDetails"]
+			snippet = items['snippet']
+			statistics = items['statistics']
+			m,s = contentDetails["duration"].replace("PT","").replace("S","").split("M")
+			dur = int(s) + int(m)*60 	
+			result = {
+				"published_at"	:	snippet["publishedAt"].replace("T"," ").replace("Z",""),
+				"title"			:	snippet['title'],
+				"description"	:	snippet['description'],
+				"thumbnail_url"	:	snippet['thumbnails']['high']['url'],
+				"duration"		:	dur,
+				"view_count"	:	int(statistics['viewCount']),
+				"like_count"	:	int(statistics['likeCount']),
+				"dislike_count"	:	int(statistics['dislikeCount']),
+				"comment_count"	:	int(statistics['commentCount'])
+			}
+			del url_entires['session_variable']
+			resource = YoutubeResource(**result)
+			resource.save()
+
+		elif request.POST.get("no") == "No":
+			pass
+	return HttpResponseRedirect(reverse('youtubeResourcePreview'))
+
+'''
+Below method stores the data returned by the Youtube v3 API in a global variable "url_entries" 
+according to the session of users as key and data as its value. This data is furthur used when
+user approved the url.
+'''
+def youtubeResourcePreview(request):
+	flag = False
+	if request.method == "POST":
+		url = request.POST.get("url")
+		flag = True
+		if "watch" in url:
+			#Identifies that it is a video
+			_,slug = url.split("watch?v=")
+			try:
+				contents = urlreq.urlopen("https://www.googleapis.com/youtube/v3/videos?part=snippet%2CcontentDetails%2Cstatistics&id="+slug+"&key="+YOUTUBE_API_KEY).read()
+				contents = json.loads(contents.decode('utf-8')) 
+				items = contents["items"][0]
+				snippet = items['snippet']
+	
+				context = {
+					"title"			:	snippet['title'],
+					"thumbnail_url"	:	snippet['thumbnails']['standard']['url'],
+					"flag"			: 	flag
+				}
+				url_entires['session_variable'] = items
+				return render(request,'learn/youtube_resource.html',context)
+			except Exception as e:
+				print(e)
+				return HttpResponse("Check console")
+
+		elif "playlist" in url:
+			#Identifies that it is a playlist
+			pass
+		elif "channel" in url:
+			#Identifies that it is a channel
+			pass
+	return render(request,'learn/youtube_resource.html',{"flag":flag})

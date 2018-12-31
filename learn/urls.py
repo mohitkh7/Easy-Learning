@@ -35,7 +35,8 @@ urlpatterns=[
 	url(r'^category/(?P<category_slug>[-\w]+)/$',SelectedTopicList.as_view(),name="SelectedTopicList"),
 
 	url(r'^ajaxcall/topicautocomplete/',autocompleteSuggestionTopic,name="AjaxTopicAutocomplete"),
-
+	url(r'^youtubeResource/$',youtubeResource,name="youtubeResource"),
+	url(r'^youtubeResourcePreview/$',youtubeResourcePreview,name="youtubeResourcePreview"),
 ]
 
 urlpatterns+=[

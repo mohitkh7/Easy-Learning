@@ -31,4 +31,4 @@ admin.site.register(Bookmark,BookmarkAdmin)
 admin.site.register(Vote)
 admin.site.register(LogEntry)
 admin.site.register(Category,CategoryAdmin)
-
+admin.site.register(YoutubeResource)
