@@ -45,6 +45,8 @@ urlpatterns=[
 	path('youtubeResource/',youtubeResource,name="youtubeResource"),
 	path('youtubeResourcePreview/',youtubeResourcePreview,name="youtubeResourcePreview"),
 
+	]
+
 
 urlpatterns+=[
 	path('login/',LoginView.as_view(redirect_authenticated_user=True),name="login"),
