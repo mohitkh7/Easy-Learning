@@ -194,3 +194,16 @@ Website => AlexaRank
 Youtube Video => Channel, Views, Upvotes, Downvotes,
 MOOC => Instructor,
 """
+class YoutubeResource(models.Model):
+    published_at = models.CharField(max_length=100)
+    title = models.CharField(max_length=50)
+    description = models.TextField(max_length=10000)
+    thumbnail_url = models.CharField(max_length=100)
+    duration = models.CharField(max_length=10)
+    view_count = models.IntegerField()
+    like_count = models.IntegerField()
+    dislike_count = models.IntegerField()
+    comment_count = models.IntegerField()
+
+    def __str__(self):
+        return self.title

@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% block content %}
+
+        <form method="post" action="{% url 'youtubeResourcePreview' %}">
+            {% csrf_token %}
+            <div class="form-group">
+              <label for="email">Url:</label>
+              <input type="text" class="form-control" name="url">
+              <input type="submit" value="Preview" class="btn btn-primary">
+            </div>
+        </form>
+
+        {% if flag %}
+        <h4>{{title}}</h4>
+        <img src={{thumbnail_url}} height="200px" width="200px"> 
+        <form method='post' action="{% url 'youtubeResource'%}">
+          {% csrf_token %}
+          <input type="submit" value="Yes" class="btn btn-success"name="next">
+          <input type="submit" class="btn btn-danger" value="No" name="no">
+        </form>
+        {% endif %}
+        
+{% endblock %}

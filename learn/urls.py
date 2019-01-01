@@ -37,11 +37,14 @@ urlpatterns=[
 
 	path('<slug:topic_slug>/<slug:resource_slug>/<slug:action>/',managevote,name="vote"),
 
+
 	path('category/all/',CategoryList.as_view(),name="CategoryList"),
 	path('category/<slug:category_slug>/',SelectedTopicList.as_view(),name="SelectedTopicList"),
 	path('ajaxcall/topicautocomplete/',autocompleteSuggestionTopic,name="AjaxTopicAutocomplete"),
 
-]
+	path('youtubeResource/',youtubeResource,name="youtubeResource"),
+	path('youtubeResourcePreview/',youtubeResourcePreview,name="youtubeResourcePreview"),
+
 
 urlpatterns+=[
 	path('login/',LoginView.as_view(redirect_authenticated_user=True),name="login"),
