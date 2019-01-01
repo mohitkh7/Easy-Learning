@@ -61,7 +61,7 @@ urlpatterns+=[
 #to avoid errors
 urlpatterns+=[
 	path('<slug:slug>/',TopicDetails.as_view(),name="TopicDetails"),
-	path('<slug:slug>/test.$',test,name="test"),
+	path('<slug:slug>/test',test,name="test"),
 ]
 # urlpatterns += staticfiles_urlpatterns()
 # urlpatterns+= static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
