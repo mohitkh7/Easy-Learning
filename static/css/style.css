@@ -48,3 +48,13 @@ body{
 	color:red;
 	padding:5px 0px;
 }
+
+
+
+.help-block {
+    display:none;    
+}
+
+.form-control:hover + .help-block {
+    display: block;
+}

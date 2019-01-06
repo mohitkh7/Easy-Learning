@@ -27,6 +27,7 @@ def UniqueEmailValidator(value):
     if User.objects.filter(email__iexact=value).exists():
         raise ValidationError('User with this Email already exists.')
 
+
 class SignupForm(UserCreationForm):
     email = forms.EmailField(max_length=254, help_text='Inform a valid email address.')
 
@@ -37,6 +38,10 @@ class SignupForm(UserCreationForm):
     def __init__(self, *args, **kwargs):
         super(SignupForm, self).__init__(*args, **kwargs)
         self.fields['email'].validators.append(UniqueEmailValidator)
+
+
+
+
 
 class SignupForm2(forms.ModelForm):
     username = forms.RegexField(regex=r'^[\w.@+-]+$',max_length=30,label='Username')
