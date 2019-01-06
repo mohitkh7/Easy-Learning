@@ -55,6 +55,6 @@ body{
     display:none;    
 }
 
-.form-control:hover + .help-block {
+.form-control:focus + .help-block {
     display: block;
 }
