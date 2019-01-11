@@ -35,7 +35,7 @@ urlpatterns=[
 	
 	path('<slug:topic_slug>/<slug:resource_slug>/delete-review/<int:pk>/',ReviewDelete.as_view(),name="ReviewDelete"),
 
-	path('<slug:topic_slug>/<slug:resource_slug>/<slug:action>/',managevote,name="vote"),
+    path('reset/<slug:uidb64>/<str:token>/',PasswordResetConfirmView.as_view, name='password_reset_confirm'),
 
 
 	path('category/all/',CategoryList.as_view(),name="CategoryList"),
@@ -60,7 +60,8 @@ urlpatterns+=[
 	path('forgot_password/',strictly_no_login(PasswordResetView.as_view()),name="forgot_password"),
 	path('password_reset/done/', PasswordResetDoneView.as_view(), name='password_reset_done'),
 
-    path('reset/<slug:uidb64>/<str:token>/',PasswordResetConfirmView.as_view, name='password_reset_confirm'),
+	path('<slug:topic_slug>/<slug:resource_slug>/<slug:action>/',managevote,name="vote"),
+
     path('reset/done/', PasswordResetCompleteView.as_view(), name='password_reset_complete'),
 ]
 #to avoid errors
