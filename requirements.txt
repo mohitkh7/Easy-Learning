@@ -1,4 +1,4 @@
-Django==2.1.4
+Django==2.2.13
 django-autoslug-iplweb==1.9.4
 django-widget-tweaks==1.4.3
 mysqlclient==1.3.14
